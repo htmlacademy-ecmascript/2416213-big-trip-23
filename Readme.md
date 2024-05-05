@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
-* Студент: [Даниил Тюкин](https://up.htmlacademy.ru/ecmascript/23/user/2416213).
-* Наставник: `Неизвестно`.
+- Студент: [Даниил Тюкин](https://up.htmlacademy.ru/ecmascript/23/user/2416213).
+- Наставник: [Дмитрий Беллавин](https://htmlacademy.ru/profile/bellavin).
 
 ---
 
