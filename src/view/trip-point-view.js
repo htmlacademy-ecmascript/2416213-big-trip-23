@@ -1,9 +1,5 @@
 import { createElement } from '../render.js';
-import {
-  humanizeEventDate,
-  humanizeEventTime,
-  getEventDuration,
-} from '../utils.js';
+import { humanizeTaskDueDate, getEventDuration } from '../utils.js';
 function createOfferTemplate(offersByType) {
   return offersByType.map(({ offers }) =>
     offers
@@ -28,22 +24,16 @@ function createTripPointTemplate(destination, eventPoints, offers) {
   const isFavoriteClass = isFavorite ? 'event__favorite-btn--active' : '';
   return `<li class="trip-events__item">
       <div class="event">
-      <time class="event__date" datetime="${dateFrom}">${humanizeEventDate(
-    dateFrom
-  )}</time>
+      <time class="event__date" datetime="${dateFrom}">${humanizeTaskDueDate(dateFrom)}</time>
         <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
         <h3 class="event__title">${type} ${name}</h3>
         <div class="event__schedule">
           <p class="event__time">
-          <time class="event__start-time" datetime="${dateFrom}">${humanizeEventTime(
-    dateFrom
-  )}</time>
+          <time class="event__start-time" datetime="${dateFrom}">${humanizeTaskDueDate(dateFrom)}</time>
             &mdash;
-            <time class="event__end-time" datetime="${dateTo}">${humanizeEventTime(
-    dateTo
-  )}</time>
+            <time class="event__end-time" datetime="${dateTo}">${humanizeTaskDueDate(dateTo)}</time>
           </p>
           <p class="event__duration">${getEventDuration(dateFrom, dateTo)}</p>
         </div>
@@ -75,11 +65,7 @@ export default class TripPointView {
   }
 
   getTemplate() {
-    return createTripPointTemplate(
-      this.destination,
-      this.eventPoints,
-      this.offers
-    );
+    return createTripPointTemplate(this.destination, this.eventPoints, this.offers);
   }
 
   getElement() {

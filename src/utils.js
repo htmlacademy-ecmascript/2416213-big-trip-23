@@ -1,11 +1,5 @@
 import dayjs from 'dayjs';
-import {
-  DATE_FORMAT,
-  TIME_FORMAT,
-  DATE_TIME_FORMAT,
-  HOURS_PER_DAY,
-  MINUTES_PER_HOUR,
-} from './constants';
+import { TimeConstants } from './constants';
 
 const createIdGenerator = (startFrom) => {
   let generatorId = startFrom;
@@ -14,31 +8,23 @@ const createIdGenerator = (startFrom) => {
   };
 };
 
-const getRandomInteger = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
+const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-const getRandomArrayElement = (elements) =>
-  elements[getRandomInteger(0, elements.length - 1)];
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-const humanizeEventDate = (eventDate) =>
-  eventDate ? dayjs(eventDate).format(DATE_FORMAT) : '';
-
-const humanizeEventTime = (eventDateTime) =>
-  eventDateTime ? dayjs(eventDateTime).format(TIME_FORMAT) : '';
-
-const humanizeEventDateTime = (eventDateTime) =>
-  eventDateTime ? dayjs(eventDateTime).format(DATE_TIME_FORMAT) : '';
+function humanizeTaskDueDate(dueDate, dateFormat) {
+  return dueDate && dateFormat ? dayjs(dueDate).format(dateFormat) : '';
+}
 
 const getEventDuration = (dateFrom, dateTo) => {
   const durationInMinutes = dayjs(dateTo).diff(dateFrom, 'm');
 
-  const days = Math.floor(
-    durationInMinutes / (HOURS_PER_DAY * MINUTES_PER_HOUR)
-  );
+  const days = Math.floor(durationInMinutes / (TimeConstants.HOURS_PER_DAY * TimeConstants.MINUTES_PER_HOUR));
   const hours = Math.floor(
-    (durationInMinutes % (HOURS_PER_DAY * MINUTES_PER_HOUR)) / MINUTES_PER_HOUR
+    (durationInMinutes % (TimeConstants.HOURS_PER_DAY * TimeConstants.MINUTES_PER_HOUR)) /
+      TimeConstants.MINUTES_PER_HOUR
   );
-  const minutes = durationInMinutes % MINUTES_PER_HOUR;
+  const minutes = durationInMinutes % TimeConstants.MINUTES_PER_HOUR;
 
   let durationString = '';
 
@@ -57,12 +43,4 @@ const getEventDuration = (dateFrom, dateTo) => {
   return durationString;
 };
 
-export {
-  createIdGenerator,
-  getRandomArrayElement,
-  getRandomInteger,
-  humanizeEventDate,
-  humanizeEventTime,
-  humanizeEventDateTime,
-  getEventDuration,
-};
+export { createIdGenerator, getRandomArrayElement, getRandomInteger, humanizeTaskDueDate, getEventDuration };

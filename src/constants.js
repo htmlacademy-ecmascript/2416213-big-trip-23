@@ -1,25 +1,25 @@
 const START_ID_COUNTER = 0;
-const MIN_IMAGES_COUNT = 0;
-const MAX_IMAGES_COUNT = 6;
-const MIN_OFFERS_COUNT = 0;
-const MAX_OFFERS_COUNT = 3;
-const MIN_PRICE_VALUE = 10;
-const MAX_PRICE_VALUE = 1000;
-const MIN_MINUTES = 1;
-const MAX_MINUTES = 80;
-const HOURS_PER_DAY = 24;
-const MINUTES_PER_HOUR = 60;
-const EVENT_TYPES = [
-  'Taxi',
-  'Bus',
-  'Train',
-  'Ship',
-  'Drive',
-  'Flight',
-  'Check-in',
-  'Sightseeing',
-  'Restaurant',
-];
+const ImageCount = {
+  MIN: 0,
+  MAX: 6,
+};
+const OfferCount = {
+  MIN: 0,
+  MAX: 3,
+};
+const PriceValue = {
+  MIN: 10,
+  MAX: 1000,
+};
+const Minutes = {
+  MIN: 1,
+  MAX: 80,
+};
+const TimeConstants = {
+  HOURS_PER_DAY: 24,
+  MINUTES_PER_HOUR: 60,
+};
+const EVENT_TYPES = ['Taxi', 'Bus', 'Train', 'Ship', 'Drive', 'Flight', 'Check-in', 'Sightseeing', 'Restaurant'];
 const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
@@ -39,34 +39,23 @@ const CITIES = [
   'Chicago',
   'Toronto',
 ];
-const OFFERS_TITLES = [
-  'Add luggage',
-  'Switch to comfort class',
-  'Add meal',
-  'Choose seats',
-  'Travel by train',
-];
-const DATE_FORMAT = 'MMM D';
-const TIME_FORMAT = 'HH:mm';
-const DATE_TIME_FORMAT = 'DD/MM/YY HH:mm';
+const OFFERS_TITLES = ['Add luggage', 'Switch to comfort class', 'Add meal', 'Choose seats', 'Travel by train'];
+const DateTimeFormats = {
+  DATE: 'MMM D',
+  TIME: 'HH:mm',
+  DATE_TIME: 'DD/MM/YY HH:mm',
+};
 
 export {
   START_ID_COUNTER,
   EVENT_TYPES,
   DESCRIPTIONS,
   CITIES,
-  MIN_IMAGES_COUNT,
-  MAX_IMAGES_COUNT,
-  MIN_OFFERS_COUNT,
-  MAX_OFFERS_COUNT,
-  MIN_PRICE_VALUE,
-  MAX_PRICE_VALUE,
-  HOURS_PER_DAY,
-  MINUTES_PER_HOUR,
+  ImageCount,
+  OfferCount,
+  PriceValue,
+  TimeConstants,
   OFFERS_TITLES,
-  MIN_MINUTES,
-  MAX_MINUTES,
-  DATE_FORMAT,
-  TIME_FORMAT,
-  DATE_TIME_FORMAT,
+  Minutes,
+  DateTimeFormats,
 };
