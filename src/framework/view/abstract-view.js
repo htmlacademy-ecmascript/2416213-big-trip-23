@@ -1,5 +1,5 @@
-import {createElement} from '../render.js';
-import './abstract-view.css';
+import { createElement } from '../../framework/render.js';
+import '../../framework/view/abstract-view.css';
 
 /** @const {string} Класс, реализующий эффект "покачивания головой" */
 const SHAKE_CLASS_NAME = 'shake';
@@ -16,7 +16,7 @@ export default class AbstractView {
 
   constructor() {
     if (new.target === AbstractView) {
-      throw new Error('Can\'t instantiate AbstractView, only concrete one.');
+      throw new Error("Can't instantiate AbstractView, only concrete one.");
     }
   }
 

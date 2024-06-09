@@ -1,4 +1,3 @@
-const START_ID_COUNTER = 0;
 const ImageCount = {
   MIN: 0,
   MAX: 6,
@@ -13,7 +12,7 @@ const PriceValue = {
 };
 const Minutes = {
   MIN: 1,
-  MAX: 80,
+  MAX: 2440,
 };
 const TimeConstants = {
   HOURS_PER_DAY: 24,
@@ -47,7 +46,6 @@ const DateTimeFormats = {
 };
 
 export {
-  START_ID_COUNTER,
   EVENT_TYPES,
   DESCRIPTIONS,
   CITIES,

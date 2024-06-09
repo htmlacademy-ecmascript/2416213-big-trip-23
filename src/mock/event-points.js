@@ -1,7 +1,5 @@
-import { createIdGenerator, getRandomArrayElement, getRandomInteger } from '../utils.js';
-import { START_ID_COUNTER, CITIES, EVENT_TYPES, PriceValue, Minutes } from '../constants.js';
-
-const getEventPointId = createIdGenerator(START_ID_COUNTER);
+import { getRandomInteger } from '../utils.js';
+import { PriceValue, Minutes } from '../constants.js';
 
 const getRandomDate = () => {
   const currentDate = new Date();
@@ -10,21 +8,15 @@ const getRandomDate = () => {
   return currentDate.toISOString();
 };
 
-const createEventPoint = () => {
-  const ID = getEventPointId();
+const createEventPoint = (type, destinationId, offerIds) => ({
+  id: crypto.randomUUID(),
+  basePrice: getRandomInteger(PriceValue.MIN, PriceValue.MAX),
+  dateFrom: new Date().toISOString(),
+  dateTo: getRandomDate(),
+  destination: destinationId,
+  isFavorite: Math.random() > 0.5,
+  offers: offerIds,
+  type,
+});
 
-  return {
-    id: ID.toString(),
-    basePrice: getRandomInteger(PriceValue.MIN, PriceValue.MAX),
-    dateFrom: new Date().toISOString(),
-    dateTo: getRandomDate(),
-    destination: getRandomInteger(1, CITIES.length).toString(),
-    isFavorite: Math.random() > 0.5,
-    offers: ['1', '2'],
-    type: getRandomArrayElement(EVENT_TYPES),
-  };
-};
-
-const getEventPoints = () => Array.from({ length: EVENT_TYPES.length }, createEventPoint);
-
-export { getEventPoints };
+export { createEventPoint };
