@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { humanizeTaskDueDate } from '../utils.js';
 import { EVENT_TYPES } from '../constants.js';
 
@@ -109,7 +109,9 @@ function createAddFormTemplate(destinations, offers) {
             <label class="event__label  event__type-output" for="event-destination-1">
               Flight
             </label>
-            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="Geneva" list="destination-list-1">
+            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${
+              BLANK_EVENT.destination
+            }" list="destination-list-1">
             <datalist id="destination-list-1">
             ${createDestinationOptionTemplate(destinations)}
             </datalist>
@@ -132,7 +134,9 @@ function createAddFormTemplate(destinations, offers) {
               <span class="visually-hidden">Price</span>
               &euro;
             </label>
-            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="">
+            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${
+              BLANK_EVENT.basePrice
+            }">
           </div>
           <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
           <button class="event__reset-btn" type="reset">Cancel</button>
@@ -170,25 +174,17 @@ function createAddFormTemplate(destinations, offers) {
     </li>`;
 }
 
-export default class AddFormView {
+export default class AddFormView extends AbstractView {
+  #destinations = null;
+  #offers = null;
+
   constructor({ destinations, offers }) {
-    this.destinations = destinations;
-    this.offers = offers;
+    super();
+    this.#destinations = destinations;
+    this.#offers = offers;
   }
 
-  getTemplate() {
-    return createAddFormTemplate(this.destinations, this.offers);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createAddFormTemplate(this.#destinations, this.#offers);
   }
 }
