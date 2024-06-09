@@ -1,4 +1,4 @@
-import { getRandomArrayElement, getRandomInteger } from '../utils.js';
+import { getRandomArrayElement, getRandomInteger } from '../utils/common.js';
 import { DESCRIPTIONS, CITIES, ImageCount } from '../constants.js';
 
 const createDestinationPicture = () => ({
