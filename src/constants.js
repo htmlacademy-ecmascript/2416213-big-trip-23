@@ -18,7 +18,8 @@ const TimeConstants = {
   HOURS_PER_DAY: 24,
   MINUTES_PER_HOUR: 60,
 };
-const EVENT_TYPES = ['Taxi', 'Bus', 'Train', 'Ship', 'Drive', 'Flight', 'Check-in', 'Sightseeing', 'Restaurant'];
+const EVENT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+
 const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
@@ -26,6 +27,7 @@ const DESCRIPTIONS = [
   'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
   'Sed sed nisi sed augue convallis suscipit in sed felis.',
 ];
+
 const CITIES = [
   'Paris',
   'Moscow',
@@ -38,11 +40,48 @@ const CITIES = [
   'Chicago',
   'Toronto',
 ];
+
 const OFFERS_TITLES = ['Add luggage', 'Switch to comfort class', 'Add meal', 'Choose seats', 'Travel by train'];
+
 const DateTimeFormats = {
   DATE: 'MMM D',
   TIME: 'HH:mm',
   DATE_TIME: 'DD/MM/YY HH:mm',
+};
+
+const SortTypes = [
+  {
+    type: 'day',
+    isDisabled: false,
+    isChecked: true,
+  },
+  {
+    type: 'event',
+    isDisabled: true,
+    isChecked: false,
+  },
+  {
+    type: 'time',
+    isDisabled: false,
+    isChecked: false,
+  },
+  {
+    type: 'price',
+    isDisabled: false,
+    isChecked: false,
+  },
+  {
+    type: 'offers',
+    isDisabled: false,
+    isChecked: false,
+  },
+];
+
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past',
 };
 
 export {
@@ -56,4 +95,6 @@ export {
   OFFERS_TITLES,
   Minutes,
   DateTimeFormats,
+  SortTypes,
+  FilterType,
 };
