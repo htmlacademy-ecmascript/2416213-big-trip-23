@@ -18,17 +18,8 @@ const TimeConstants = {
   HOURS_PER_DAY: 24,
   MINUTES_PER_HOUR: 60,
 };
-const EVENT_TYPES = {
-  TAXI: 'taxi',
-  BUS: 'bus',
-  TRAIN: 'train',
-  SHIP: 'ship',
-  DRIVE: 'drive',
-  FLIGHT: 'flight',
-  CHECK_IN: 'check-in',
-  SIGHTSEEING: 'sightseeing',
-  RESTAURANT: 'restaurant',
-};
+
+const EVENT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
 const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
@@ -38,18 +29,18 @@ const DESCRIPTIONS = [
   'Sed sed nisi sed augue convallis suscipit in sed felis.',
 ];
 
-const CITIES = {
-  PARIS: 'Paris',
-  MOSCOW: 'Moscow',
-  LONDON: 'London',
-  TOKYO: 'Tokyo',
-  NEW_YORK: 'New York',
-  BERLIN: 'Berlin',
-  AMSTERDAM: 'Amsterdam',
-  SAN_FRANCISCO: 'San Francisco',
-  CHICAGO: 'Chicago',
-  TORONTO: 'Toronto',
-};
+const CITIES = [
+  'Paris',
+  'Moscow',
+  'London',
+  'Tokio',
+  'New York',
+  'Berlin',
+  'Amsterdam',
+  'San-Francisco',
+  'Chicago',
+  'Toronto',
+];
 
 const OFFERS_TITLES = ['Add luggage', 'Switch to comfort class', 'Add meal', 'Choose seats', 'Travel by train'];
 
