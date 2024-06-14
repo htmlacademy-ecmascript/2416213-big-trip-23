@@ -50,4 +50,24 @@ const isFutureDate = (dueDate) => {
   return targetDate.isAfter(currentDate);
 };
 
-export { humanizeTaskDueDate, getEventDuration, isPastDate, isPresentDate, isFutureDate };
+const sortByDate = (eventA, eventB) => dayjs(eventA.dateFrom).diff(dayjs(eventB.dateFrom));
+
+const sortByPrice = (eventA, eventB) => eventB.basePrice - eventA.basePrice;
+
+const sortByTime = (eventA, eventB) => {
+  const eventADuration = dayjs(eventA.dateTo).diff(eventA.dateFrom);
+  const eventBDuration = dayjs(eventB.dateTo).diff(eventB.dateFrom);
+
+  return eventBDuration - eventADuration;
+};
+
+export {
+  humanizeTaskDueDate,
+  getEventDuration,
+  isPastDate,
+  isPresentDate,
+  isFutureDate,
+  sortByPrice,
+  sortByTime,
+  sortByDate,
+};
