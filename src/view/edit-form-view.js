@@ -1,4 +1,6 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 import { humanizeTaskDueDate } from '../utils/event.js';
 import { capitalizeFirstLetter } from '../utils/common.js';
 import { EVENT_TYPES } from '../constants.js';
@@ -92,9 +94,9 @@ function createPictureTemplate(pictures) {
     .join('');
 }
 
-function createEditFormTemplate({ destinations, eventPoint, offers }) {
-  const { type, basePrice, dateFrom, dateTo } = eventPoint;
-  const destination = destinations.find((item) => item.id === eventPoint.destination);
+function createEditFormTemplate({ destinations, state, offers }) {
+  const { type, basePrice, dateFrom, dateTo } = state;
+  const destination = destinations.find((item) => item.id === state.destination);
   const { id, name, description, pictures } = destination;
   const offersByType = offers.find((item) => item.type === type).offers;
   return `<li class="trip-events__item">
@@ -143,7 +145,7 @@ function createEditFormTemplate({ destinations, eventPoint, offers }) {
           <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-            ${createOfferTemplate(offersByType, eventPoint.offers)}
+            ${createOfferTemplate(offersByType, state.offers)}
           </div>
           </section>
           `
@@ -171,11 +173,11 @@ function createEditFormTemplate({ destinations, eventPoint, offers }) {
 
 export default class EditFormView extends AbstractStatefulView {
   #destinations = [];
-  #destination = null;
-  #eventPoint = null;
   #offers = [];
   #onCloseClick = null;
   #onFormSubmit = null;
+  #datePickerFrom = null;
+  #datePickerTo = null;
 
   constructor({ destinations, eventPoint, offers, onCloseClick, onFormSubmit }) {
     super();
@@ -190,14 +192,25 @@ export default class EditFormView extends AbstractStatefulView {
   get template() {
     return createEditFormTemplate({
       destinations: this.#destinations,
-      eventPoint: this._state,
+      state: this._state,
       offers: this.#offers,
     });
   }
 
+  removeElement() {
+    super.removeElement();
+    if (this.#datePickerFrom) {
+      this.#datePickerFrom.destroy();
+      this.#datePickerFrom = null;
+    }
+    if (this.#datePickerTo) {
+      this.#datePickerTo.destroy();
+      this.#datePickerTo = null;
+    }
+  }
+
   reset(point) {
     this.updateElement(EditFormView.parsePointToState(point));
-    return createEditFormTemplate(this.#destinations, this.#destination, this.#eventPoint, this.#offers);
   }
 
   _restoreHandlers() {
@@ -210,6 +223,7 @@ export default class EditFormView extends AbstractStatefulView {
       offersElement.addEventListener('change', this.#offersChangeHandler);
     }
     this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputHandler);
+    this.#setDatePickers();
   }
 
   #submitEditFormHandler = (evt) => {
@@ -234,6 +248,41 @@ export default class EditFormView extends AbstractStatefulView {
 
   #priceInputHandler = (evt) => {
     this._setState({ basePrice: +evt.target.value });
+  };
+
+  #dateFromChangeHandler = ([userDate]) => {
+    this._setState({ dateFrom: userDate });
+    this.#datePickerTo.set('minDate', this._state.dateFrom);
+  };
+
+  #dateToChangeHandler = ([userDate]) => {
+    this._setState({ dateTo: userDate });
+    this.#datePickerFrom.set('maxDate', this._state.dateTo);
+  };
+
+  #setDatePickers = () => {
+    const [dateFromElement, dateToElement] = this.element.querySelectorAll('.event__input--time');
+    const dateConfig = {
+      dateFormat: 'd/m/y H:i',
+      enableTime: true,
+      locale: { firstDayOfWeek: 1 },
+      // eslint-disable-next-line camelcase
+      time_24hr: true,
+    };
+
+    this.#datePickerFrom = flatpickr(dateFromElement, {
+      ...dateConfig,
+      defaultDate: this._state.dateFrom,
+      onChange: this.#dateFromChangeHandler,
+      maxDate: this._state.dateTo,
+    });
+
+    this.#datePickerTo = flatpickr(dateToElement, {
+      ...dateConfig,
+      defaultDate: this._state.dateTo,
+      onChange: this.#dateToChangeHandler,
+      minDate: this._state.dateFrom,
+    });
   };
 
   static parsePointToState(point) {
