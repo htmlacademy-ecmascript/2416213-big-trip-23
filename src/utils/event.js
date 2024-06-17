@@ -1,73 +1,31 @@
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 import { TimeConstants } from '../constants';
+
+dayjs.extend(duration);
 
 function humanizeTaskDueDate(dueDate, dateFormat) {
   return dueDate && dateFormat ? dayjs(dueDate).format(dateFormat) : '';
 }
 
 const getEventDuration = (dateFrom, dateTo) => {
-  const durationInMinutes = dayjs(dateTo).diff(dateFrom, 'm');
-
-  const days = Math.floor(durationInMinutes / (TimeConstants.HOURS_PER_DAY * TimeConstants.MINUTES_PER_HOUR));
-  const hours = Math.floor(
-    (durationInMinutes % (TimeConstants.HOURS_PER_DAY * TimeConstants.MINUTES_PER_HOUR)) /
-      TimeConstants.MINUTES_PER_HOUR
-  );
-  const minutes = durationInMinutes % TimeConstants.MINUTES_PER_HOUR;
-
-  let durationString = '';
-
-  if (days > 0) {
-    durationString += `${days}D `;
+  const diff = dayjs(dateTo).diff(dayjs(dateFrom), 'm');
+  if (diff >= TimeConstants.MINUTES_PER_DAY) {
+    return dayjs.duration(diff, 'm').format('DD[D] HH[H] mm[M]');
   }
 
-  if (hours > 0) {
-    durationString += `${hours}H `;
+  if (diff >= TimeConstants.MINUTES_PER_HOUR) {
+    return dayjs.duration(diff, 'm').format('HH[H] mm[M]');
   }
 
-  if (minutes > 0) {
-    durationString += `${minutes}M `;
+  if (diff < TimeConstants.MINUTES_PER_HOUR) {
+    return dayjs.duration(diff, 'm').format('mm[M]');
   }
-
-  return durationString;
 };
 
-const isPastDate = (dueDate) => {
-  const currentDate = dayjs();
-  const targetDate = dayjs(dueDate);
-  return targetDate.isBefore(currentDate);
-};
+const isMinorChange = (eventA, eventB) =>
+  eventA.dateFrom !== eventB.dateFrom ||
+  eventA.basePrice !== eventB.basePrice ||
+  getEventDuration(eventA.dateFrom, eventA.dateTo) !== getEventDuration(eventB.dateFrom, eventB.dateTo);
 
-const isPresentDate = (dueDate) => {
-  const currentDate = dayjs();
-  const targetDate = dayjs(dueDate);
-  return targetDate.isSame(currentDate, 'day');
-};
-
-const isFutureDate = (dueDate) => {
-  const currentDate = dayjs();
-  const targetDate = dayjs(dueDate);
-  return targetDate.isAfter(currentDate);
-};
-
-const sortByDate = (eventA, eventB) => dayjs(eventA.dateFrom).diff(dayjs(eventB.dateFrom));
-
-const sortByPrice = (eventA, eventB) => eventB.basePrice - eventA.basePrice;
-
-const sortByTime = (eventA, eventB) => {
-  const eventADuration = dayjs(eventA.dateTo).diff(eventA.dateFrom);
-  const eventBDuration = dayjs(eventB.dateTo).diff(eventB.dateFrom);
-
-  return eventBDuration - eventADuration;
-};
-
-export {
-  humanizeTaskDueDate,
-  getEventDuration,
-  isPastDate,
-  isPresentDate,
-  isFutureDate,
-  sortByPrice,
-  sortByTime,
-  sortByDate,
-};
+export { humanizeTaskDueDate, getEventDuration, isMinorChange };
