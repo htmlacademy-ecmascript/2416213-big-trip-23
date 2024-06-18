@@ -1,48 +1,12 @@
-const ImageCount = {
-  MIN: 0,
-  MAX: 6,
-};
-const OfferCount = {
-  MIN: 0,
-  MAX: 3,
-};
-const PriceValue = {
-  MIN: 10,
-  MAX: 1000,
-};
-const Minutes = {
-  MIN: 1,
-  MAX: 2440,
-};
+const BASE_URL = 'https://21.objects.pages.academy/big-trip';
+const AUTHORIZATION = 'Basic aB3ksS67wcl2sa3k';
+
 const TimeConstants = {
   MINUTES_PER_DAY: 1440,
   MINUTES_PER_HOUR: 60,
 };
 
 const EVENT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
-
-const DESCRIPTIONS = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
-  'Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra.',
-  'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
-  'Sed sed nisi sed augue convalis suscipit in sed felis.',
-];
-
-const CITIES = [
-  'Paris',
-  'Moscow',
-  'London',
-  'Tokio',
-  'New York',
-  'Berlin',
-  'Amsterdam',
-  'San-Francisco',
-  'Chicago',
-  'Toronto',
-];
-
-const OFFERS_TITLES = ['Add luggage', 'Switch to comfort class', 'Add meal', 'Choose seats', 'Travel by train'];
 
 const DateTimeFormats = {
   DATE: 'MMM D',
@@ -79,6 +43,19 @@ const Mode = {
   ADDITING: 'ADDITING',
 };
 
+const Methods = {
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
+};
+
+const ServiceUrl = {
+  POINTS: 'points',
+  OFFERS: 'offers',
+  DESTINATIONS: 'destinations',
+};
+
 const EMPTY_POINT = {
   basePrice: 0,
   dateFrom: null,
@@ -99,6 +76,7 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
 const NoPointsTextType = {
@@ -109,20 +87,17 @@ const NoPointsTextType = {
 };
 
 export {
+  BASE_URL,
+  AUTHORIZATION,
   EVENT_TYPES,
-  DESCRIPTIONS,
-  CITIES,
-  ImageCount,
-  OfferCount,
-  PriceValue,
   TimeConstants,
-  OFFERS_TITLES,
-  Minutes,
   DateTimeFormats,
   SortTypes,
   enabledSortType,
   FilterType,
   Mode,
+  Methods,
+  ServiceUrl,
   EMPTY_POINT,
   UserAction,
   UpdateType,
