@@ -1,4 +1,4 @@
-const BASE_URL = 'https://21.objects.pages.academy/big-trip';
+const BASE_URL = 'https://23.objects.htmlacademy.pro/big-trip';
 const AUTHORIZATION = 'Basic aB3ksS67wcl2sa3k';
 
 const TimeConstants = {

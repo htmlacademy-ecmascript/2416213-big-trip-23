@@ -20,7 +20,6 @@ export default class TripListPresenter {
   #emptyEventPointsComponent = null;
   #currentSortType = SortTypes.DAY;
   #pointsPresenter = new Map();
-
   #sortPresenter = null;
   #isAdditingType = null;
   #loadingComponent = new LoadingView();
@@ -130,6 +129,7 @@ export default class TripListPresenter {
       currentSortType: this.#currentSortType,
       sortTypeChangeHandler: this.#handleSortTypeChange,
     });
+
     this.#sortPresenter.init();
   }
 
@@ -154,6 +154,7 @@ export default class TripListPresenter {
       this.#renderLoading();
       return;
     }
+
     const eventPoints = this.eventPoints;
 
     if (!eventPoints.length) {
@@ -162,6 +163,7 @@ export default class TripListPresenter {
     }
 
     this.#renderSort();
+
     render(this.#tripListComponent, this.#tripContainer);
     this.#renderPoints(eventPoints);
   }
