@@ -15,7 +15,7 @@ const Minutes = {
   MAX: 2440,
 };
 const TimeConstants = {
-  HOURS_PER_DAY: 24,
+  MINUTES_PER_DAY: 1440,
   MINUTES_PER_HOUR: 60,
 };
 
@@ -50,33 +50,21 @@ const DateTimeFormats = {
   DATE_TIME: 'DD/MM/YY HH:mm',
 };
 
-const SortTypes = [
-  {
-    type: 'day',
-    isDisabled: false,
-    isChecked: true,
-  },
-  {
-    type: 'event',
-    isDisabled: true,
-    isChecked: false,
-  },
-  {
-    type: 'time',
-    isDisabled: false,
-    isChecked: false,
-  },
-  {
-    type: 'price',
-    isDisabled: false,
-    isChecked: false,
-  },
-  {
-    type: 'offers',
-    isDisabled: true,
-    isChecked: false,
-  },
-];
+const SortTypes = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers',
+};
+
+const enabledSortType = {
+  [SortTypes.DAY]: true,
+  [SortTypes.EVENT]: false,
+  [SortTypes.TIME]: true,
+  [SortTypes.PRICE]: true,
+  [SortTypes.OFFERS]: false,
+};
 
 const FilterType = {
   EVERYTHING: 'everything',
@@ -88,6 +76,36 @@ const FilterType = {
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
+  ADDITING: 'ADDITING',
+};
+
+const EMPTY_POINT = {
+  basePrice: 0,
+  dateFrom: null,
+  dateTo: null,
+  destination: null,
+  isFavorite: false,
+  offers: [],
+  type: 'flight',
+};
+
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
+const NoPointsTextType = {
+  [FilterType.EVERYTHING]: 'Click New Event to create your first point',
+  [FilterType.FUTURE]: 'There are no future points now',
+  [FilterType.PRESENT]: 'There are no present points now',
+  [FilterType.PAST]: 'There are no past points now',
 };
 
 export {
@@ -102,6 +120,11 @@ export {
   Minutes,
   DateTimeFormats,
   SortTypes,
+  enabledSortType,
   FilterType,
   Mode,
+  EMPTY_POINT,
+  UserAction,
+  UpdateType,
+  NoPointsTextType,
 };
