@@ -15,25 +15,24 @@ export default class EventPointsModel extends Observable {
     this.#offersModel = offersModel;
   }
 
+  async init() {
+    try {
+      await Promise.all([this.#destinationModel.init(), this.#offersModel.init()]);
+      const eventPoints = await this.#service.points;
+      this.#eventPoints = eventPoints.map(this.#adaptToClient);
+      this._notify(UpdateType.INIT, { isError: false });
+    } catch (err) {
+      this.#eventPoints = [];
+      this._notify(UpdateType.INIT, { isError: true });
+    }
+  }
+
   get eventPoints() {
     return this.#eventPoints;
   }
 
   getById(id) {
     return this.#eventPoints.find((eventPoint) => eventPoint.id === id) || null;
-  }
-
-  async init() {
-    try {
-      await this.#destinationModel.init();
-      await this.#offersModel.init();
-      const eventPoints = await this.#service.points;
-      this.#eventPoints = eventPoints.map(this.#adaptToClient);
-    } catch (err) {
-      this.#eventPoints = [];
-    }
-
-    this._notify(UpdateType.INIT);
   }
 
   async update(updateType, point) {
@@ -47,16 +46,25 @@ export default class EventPointsModel extends Observable {
     }
   }
 
-  add(updateType, point) {
-    const addedPoint = this.#service.addPoint(point);
-    this.#eventPoints = [...this.#eventPoints, addedPoint];
-    this._notify(updateType, addedPoint);
+  async add(updateType, point) {
+    try {
+      const response = await this.#service.addPoint(point);
+      const newPoint = this.#adaptToClient(response);
+      this.#eventPoints = [newPoint, ...this.#eventPoints];
+      this._notify(updateType, newPoint);
+    } catch (err) {
+      throw new Error("Can't add point");
+    }
   }
 
-  delete(updateType, point) {
-    this.#service.deletePoint(point);
-    this.#eventPoints = this.#eventPoints.filter((eventPoint) => eventPoint.id !== point.id);
-    this._notify(updateType);
+  async delete(updateType, point) {
+    try {
+      await this.#service.deletePoint(point);
+      this.#eventPoints = this.#eventPoints.filter((eventPoint) => eventPoint.id !== point.id);
+      this._notify(updateType);
+    } catch (err) {
+      throw new Error("Can't delete point");
+    }
   }
 
   #adaptToClient(point) {

@@ -9,17 +9,26 @@ function humanizeTaskDueDate(dueDate, dateFormat) {
 }
 
 const getEventDuration = (dateFrom, dateTo) => {
-  const diff = dayjs(dateTo).diff(dayjs(dateFrom), 'm');
-  if (diff >= TimeConstants.MINUTES_PER_DAY) {
-    return dayjs.duration(diff, 'm').format('DD[D] HH[H] mm[M]');
+  const diffInMinutes = dayjs(dateTo).diff(dayjs(dateFrom), 'm');
+
+  const days = Math.floor(diffInMinutes / TimeConstants.MINUTES_PER_DAY);
+  const hours = Math.floor((diffInMinutes % TimeConstants.MINUTES_PER_DAY) / TimeConstants.MINUTES_PER_HOUR);
+  const minutes = diffInMinutes % TimeConstants.MINUTES_PER_HOUR;
+
+  const formattedDays = days.toString().padStart(2, '0');
+  const formattedHours = hours.toString().padStart(2, '0');
+  const formattedMinutes = minutes.toString().padStart(2, '0');
+
+  if (diffInMinutes >= TimeConstants.MINUTES_PER_DAY) {
+    return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M`;
   }
 
-  if (diff >= TimeConstants.MINUTES_PER_HOUR) {
-    return dayjs.duration(diff, 'm').format('HH[H] mm[M]');
+  if (diffInMinutes >= TimeConstants.MINUTES_PER_HOUR) {
+    return `${formattedHours}H ${formattedMinutes}M`;
   }
 
-  if (diff < TimeConstants.MINUTES_PER_HOUR) {
-    return dayjs.duration(diff, 'm').format('mm[M]');
+  if (diffInMinutes < TimeConstants.MINUTES_PER_HOUR) {
+    return `${formattedMinutes}M`;
   }
 };
 
