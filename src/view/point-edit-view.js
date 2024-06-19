@@ -121,16 +121,12 @@ function createDestinationInfoTemplate(isDestination, destination) {
     ? `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">${destination.description}</p>
-      ${
-        destination.pictures.length > 0
-          ? `
+      ${destination.pictures.length > 0 ? `
         <div class="event__photos-container">
           <div class="event__photos-tape">
             ${createPictureTemplate(destination.pictures)}
           </div>
-        `
-          : ''
-      }
+        ` : ''}
       </div>
     </section>`
     : '<p class="event__destination-description">No pictures destination description</p>';
@@ -147,8 +143,8 @@ function createButtonTemplate(isCreating, isDisabled, isDeleting) {
     <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${
     isDeleting ? 'Deleting...' : 'Delete'
   }</button>
-    ${rollupTemplate()}
-  `;
+  ${rollupTemplate()}
+`;
 }
 
 function createEditFormTemplate({ destinations, state, offers, modeType }) {
