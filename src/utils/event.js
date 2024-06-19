@@ -1,12 +1,14 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import { TimeConstants } from '../constants';
+import { TimeConstants, DateTimeFormats } from '../constants';
 
 dayjs.extend(duration);
 
 function humanizeTaskDueDate(dueDate, dateFormat) {
   return dueDate && dateFormat ? dayjs(dueDate).format(dateFormat) : '';
 }
+
+const humanizeHeaderEventDate = (eventDate) => (eventDate ? dayjs(eventDate).format(DateTimeFormats.HEADER_DATE) : '');
 
 const getEventDuration = (dateFrom, dateTo) => {
   const diffInMinutes = dayjs(dateTo).diff(dayjs(dateFrom), 'm');
@@ -37,4 +39,4 @@ const isMinorChange = (eventA, eventB) =>
   eventA.basePrice !== eventB.basePrice ||
   getEventDuration(eventA.dateFrom, eventA.dateTo) !== getEventDuration(eventB.dateFrom, eventB.dateTo);
 
-export { humanizeTaskDueDate, getEventDuration, isMinorChange };
+export { humanizeTaskDueDate, humanizeHeaderEventDate, getEventDuration, isMinorChange };

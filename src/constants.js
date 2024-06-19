@@ -1,6 +1,8 @@
 const BASE_URL = 'https://23.objects.htmlacademy.pro/big-trip';
 const AUTHORIZATION = 'Basic aB3ksS67wcl2sa3k';
 
+const HEADER_DESTINATION_COUNT = 3;
+
 const TimeConstants = {
   MINUTES_PER_DAY: 1440,
   MINUTES_PER_HOUR: 60,
@@ -14,6 +16,7 @@ const TimeLimit = {
 const EVENT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
 const DateTimeFormats = {
+  HEADER_DATE: 'D MMM',
   DATE: 'MMM D',
   TIME: 'HH:mm',
   DATE_TIME: 'DD/MM/YY HH:mm',
@@ -82,6 +85,7 @@ const UpdateType = {
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
   INIT: 'INIT',
+  ERROR: 'ERROR',
 };
 
 const NoPointsTextType = {
@@ -89,11 +93,13 @@ const NoPointsTextType = {
   [FilterType.FUTURE]: 'There are no future events now',
   [FilterType.PRESENT]: 'There are no present events now',
   [FilterType.PAST]: 'There are no past events now',
+  ERROR: 'Failed to load latest route information',
 };
 
 export {
   BASE_URL,
   AUTHORIZATION,
+  HEADER_DESTINATION_COUNT,
   EVENT_TYPES,
   TimeConstants,
   TimeLimit,
