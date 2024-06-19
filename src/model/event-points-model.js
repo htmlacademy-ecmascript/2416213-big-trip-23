@@ -42,7 +42,7 @@ export default class EventPointsModel extends Observable {
       this.#eventPoints = updateItem(this.#eventPoints, updatedPoint);
       this._notify(updateType, updatedPoint);
     } catch (err) {
-      throw new Error("Can't update point");
+      throw new Error('Can\'t update point');
     }
   }
 
@@ -53,7 +53,7 @@ export default class EventPointsModel extends Observable {
       this.#eventPoints = [newPoint, ...this.#eventPoints];
       this._notify(updateType, newPoint);
     } catch (err) {
-      throw new Error("Can't add point");
+      throw new Error('Can\'t add point');
     }
   }
 
@@ -63,7 +63,7 @@ export default class EventPointsModel extends Observable {
       this.#eventPoints = this.#eventPoints.filter((eventPoint) => eventPoint.id !== point.id);
       this._notify(updateType);
     } catch (err) {
-      throw new Error("Can't delete point");
+      throw new Error('Can\'t delete point');
     }
   }
 
