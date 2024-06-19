@@ -53,11 +53,7 @@ export default class BigTripApp {
     headerPresenter.init();
     filterPresenter.init();
     tripListPresenter.init();
-    eventPointsModel.init().finally(() => {
-      newPointButtonPresenter.init({ onButtonClick: tripListPresenter.createPoint });
-    });
-    eventPointsModel.init().finally(() => {
-      newPointButtonPresenter.init({ onButtonClick: tripListPresenter.createPoint });
-    });
+    newPointButtonPresenter.init({ onButtonClick: tripListPresenter.createPoint });
+    eventPointsModel.init();
   }
 }
