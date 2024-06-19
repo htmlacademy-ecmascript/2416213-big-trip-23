@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { FilterType } from '../constants';
-const isPastDate = (point) => dayjs().isAfter(point.dateFrom);
+const isPastDate = (point) => dayjs().isAfter(point.dateTo);
 
-const isPresentDate = (point) => dayjs().isAfter(point.dateFrom) && dayjs().isBefore(point.dateFrom);
+const isPresentDate = (point) => dayjs().isAfter(point.dateFrom) && dayjs().isBefore(point.dateTo);
 
 const isFutureDate = (point) => dayjs().isBefore(point.dateFrom);
 

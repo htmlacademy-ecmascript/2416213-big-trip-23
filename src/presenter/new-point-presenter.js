@@ -47,10 +47,27 @@ export default class NewPointPresenter {
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   }
 
-  #handleFormSubmit = (point) => {
-    this.#onDataChange(UserAction.ADD_POINT, UpdateType.MAJOR, { id: crypto.randomUUID(), ...point });
+  setSaving() {
+    this.#pointEditComponent.updateElement({
+      isDisabled: true,
+      isSaving: true,
+    });
+  }
 
-    this.destroy({ isCanceled: false });
+  setAborting() {
+    const resetFormState = () => {
+      this.#pointEditComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#pointEditComponent.shake(resetFormState);
+  }
+
+  #handleFormSubmit = (point) => {
+    this.#onDataChange(UserAction.ADD_POINT, UpdateType.MAJOR, point);
   };
 
   #handleCancelClick = () => {
