@@ -140,11 +140,9 @@ function createButtonTemplate(isCreating, isDisabled, isDeleting) {
   }
 
   return `
-    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${
-    isDeleting ? 'Deleting...' : 'Delete'
-  }</button>
-  ${rollupTemplate()}
-`;
+    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}</button>
+    ${rollupTemplate()}
+  `;
 }
 
 function createEditFormTemplate({ destinations, state, offers, modeType }) {
