@@ -121,12 +121,16 @@ function createDestinationInfoTemplate(isDestination, destination) {
     ? `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">${destination.description}</p>
-      ${destination.pictures.length > 0 ? `
+      ${
+        destination.pictures.length > 0
+          ? `
         <div class="event__photos-container">
           <div class="event__photos-tape">
             ${createPictureTemplate(destination.pictures)}
           </div>
-        ` : ''}
+        `
+          : ''
+      }
       </div>
     </section>`
     : '<p class="event__destination-description">No pictures destination description</p>';
@@ -140,13 +144,15 @@ function createButtonTemplate(isCreating, isDisabled, isDeleting) {
   }
 
   return `
-    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}</button>
+    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${
+    isDeleting ? 'Deleting...' : 'Delete'
+  }</button>
     ${rollupTemplate()}
   `;
 }
 
 function createEditFormTemplate({ destinations, state, offers, modeType }) {
-  const isAdditingType = modeType === Mode.ADDITING;
+  const isAddingType = modeType === Mode.ADDING;
   const { type, basePrice, dateFrom, dateTo } = state;
   const destination = destinations.find((item) => item.id === state.destination);
   const offersByType = offers.find((item) => item.type === type).offers;
@@ -180,7 +186,7 @@ function createEditFormTemplate({ destinations, state, offers, modeType }) {
               id="event-start-time-1"
               type="text"
               name="event-start-time"
-              value="${isAdditingType ? '' : humanizeTaskDueDate(dateFrom)}"
+              value="${isAddingType ? '' : humanizeTaskDueDate(dateFrom)}"
             >
             &mdash;
             <label class="visually-hidden" for="event-end-time-1">To</label>
@@ -189,7 +195,7 @@ function createEditFormTemplate({ destinations, state, offers, modeType }) {
               id="event-end-time-1"
               type="text"
               name="event-end-time"
-              value="${isAdditingType ? '' : humanizeTaskDueDate(dateTo)}"
+              value="${isAddingType ? '' : humanizeTaskDueDate(dateTo)}"
             >
           </div>
           <div class="event__field-group  event__field-group--price">
@@ -212,7 +218,7 @@ function createEditFormTemplate({ destinations, state, offers, modeType }) {
             type="submit"
             ${state.isDisabled ? 'disabled' : ''}
           >${state.isSaving ? 'Saving...' : 'Save'}</button>
-          ${createButtonTemplate(isAdditingType, state.isDisabled, state.isDeleting)}
+          ${createButtonTemplate(isAddingType, state.isDisabled, state.isDeleting)}
         </header>
         <section class="event__details">
         ${createOffersSectionTemplate(isOffers, offersByType, state.offers)}
@@ -383,3 +389,4 @@ export default class PointEditView extends AbstractStatefulView {
     return point;
   }
 }
+
