@@ -48,7 +48,7 @@ const FilterType = {
 const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
-  ADDITING: 'ADDITING',
+  ADDING: 'ADDING',
 };
 
 const Methods = {
