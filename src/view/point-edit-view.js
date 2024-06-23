@@ -140,7 +140,8 @@ function createButtonTemplate(isCreating, isDisabled, isDeleting) {
   }
 
   return `
-    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}</button>
+    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}
+</button>
     ${rollupTemplate()}
   `;
 }
