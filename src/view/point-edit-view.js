@@ -121,12 +121,16 @@ function createDestinationInfoTemplate(isDestination, destination) {
     ? `<section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">${destination.description}</p>
-      ${destination.pictures.length > 0 ? `
+      ${
+        destination.pictures.length > 0
+          ? `
         <div class="event__photos-container">
           <div class="event__photos-tape">
             ${createPictureTemplate(destination.pictures)}
           </div>
-        ` : ''}
+        `
+          : ''
+      }
       </div>
     </section>`
     : '<p class="event__destination-description">No pictures destination description</p>';
@@ -140,14 +144,15 @@ function createButtonTemplate(isCreating, isDisabled, isDeleting) {
   }
 
   return `
-    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}
-</button>
+    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${
+    isDeleting ? 'Deleting...' : 'Delete'
+  }</button>
     ${rollupTemplate()}
   `;
 }
 
 function createEditFormTemplate({ destinations, state, offers, modeType }) {
-  const isAdditingType = modeType === Mode.ADDITING;
+  const isAddingType = modeType === Mode.ADDING;
   const { type, basePrice, dateFrom, dateTo } = state;
   const destination = destinations.find((item) => item.id === state.destination);
   const offersByType = offers.find((item) => item.type === type).offers;
@@ -181,7 +186,7 @@ function createEditFormTemplate({ destinations, state, offers, modeType }) {
               id="event-start-time-1"
               type="text"
               name="event-start-time"
-              value="${isAdditingType ? '' : humanizeTaskDueDate(dateFrom)}"
+              value="${isAddingType ? '' : humanizeTaskDueDate(dateFrom)}"
             >
             &mdash;
             <label class="visually-hidden" for="event-end-time-1">To</label>
@@ -190,7 +195,7 @@ function createEditFormTemplate({ destinations, state, offers, modeType }) {
               id="event-end-time-1"
               type="text"
               name="event-end-time"
-              value="${isAdditingType ? '' : humanizeTaskDueDate(dateTo)}"
+              value="${isAddingType ? '' : humanizeTaskDueDate(dateTo)}"
             >
           </div>
           <div class="event__field-group  event__field-group--price">
@@ -213,7 +218,7 @@ function createEditFormTemplate({ destinations, state, offers, modeType }) {
             type="submit"
             ${state.isDisabled ? 'disabled' : ''}
           >${state.isSaving ? 'Saving...' : 'Save'}</button>
-          ${createButtonTemplate(isAdditingType, state.isDisabled, state.isDeleting)}
+          ${createButtonTemplate(isAddingType, state.isDisabled, state.isDeleting)}
         </header>
         <section class="event__details">
         ${createOffersSectionTemplate(isOffers, offersByType, state.offers)}
@@ -226,7 +231,7 @@ function createEditFormTemplate({ destinations, state, offers, modeType }) {
 export default class PointEditView extends AbstractStatefulView {
   #destinations = [];
   #offers = [];
-  #rollupButtonClickHandler = null;
+  #onCloseClick = null;
   #onFormSubmit = null;
   #onDeleteClick = null;
   #datePickerFrom = null;
@@ -246,7 +251,7 @@ export default class PointEditView extends AbstractStatefulView {
     super();
     this.#destinations = destinations;
     this.#offers = offers;
-    this.#rollupButtonClickHandler = onCloseClick;
+    this.#onCloseClick = onCloseClick;
     this.#onFormSubmit = onFormSubmit;
     this.#onDeleteClick = onDeleteClick;
     this.#modeType = modeType;
@@ -282,51 +287,51 @@ export default class PointEditView extends AbstractStatefulView {
 
   _restoreHandlers() {
     if (this.#modeType === Mode.EDITING) {
-      this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupButtonClickHandler);
-      this.element.querySelector('.event__save-btn').addEventListener('click', this.#saveButtonClickHandler);
-      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#deleteButtonClickHandler);
+      this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#onCloseClick);
+      this.element.querySelector('.event__save-btn').addEventListener('click', this.#submitEditFormHandler);
+      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#pointDeleteHandler);
     } else {
-      this.element.querySelector('.event__save-btn').addEventListener('click', this.#saveButtonClickHandler);
-      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#cancelButtonClickHandler);
+      this.element.querySelector('.event__save-btn').addEventListener('click', this.#submitEditFormHandler);
+      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formCancelHandler);
     }
-    this.element.querySelector('.event__type-group').addEventListener('change', this.#typeGroupChangeHandler);
-    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationInputChangeHandler);
-    this.element.querySelector('.event__available-offers')?.addEventListener('change', this.#offersOptionChangeHandler);
-    this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputChangeHandler);
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#typeOptionHandler);
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationOptionHandler);
+    this.element.querySelector('.event__available-offers')?.addEventListener('change', this.#offersChangeHandler);
+    this.element.querySelector('.event__input--price').addEventListener('input', this.#priceInputHandler);
     this.#setDatePickers();
   }
 
-  #saveButtonClickHandler = (evt) => {
+  #submitEditFormHandler = (evt) => {
     evt.preventDefault();
     this.#onFormSubmit(PointEditView.parseStateToPoint(this._state));
   };
 
-  #cancelButtonClickHandler = (evt) => {
+  #formCancelHandler = (evt) => {
     evt.preventDefault();
-    this.#rollupButtonClickHandler();
+    this.#onCloseClick();
   };
 
-  #deleteButtonClickHandler = (evt) => {
+  #pointDeleteHandler = (evt) => {
     evt.preventDefault();
     this.#onDeleteClick(PointEditView.parseStateToPoint(this._state));
   };
 
-  #typeGroupChangeHandler = (evt) => {
+  #typeOptionHandler = (evt) => {
     this.updateElement({ type: evt.target.value, offers: [] });
   };
 
-  #destinationInputChangeHandler = (evt) => {
+  #destinationOptionHandler = (evt) => {
     const selectedDestination = this.#destinations.find((item) => item.name === evt.target.value);
     const selectedDestinationId = selectedDestination ? selectedDestination.id : null;
     this.updateElement({ destination: selectedDestinationId });
   };
 
-  #offersOptionChangeHandler = () => {
+  #offersChangeHandler = () => {
     const selectedOffers = Array.from(this.element.querySelectorAll('.event__offer-checkbox:checked'));
     this._setState({ offers: selectedOffers.map((offer) => offer.dataset.offerId) });
   };
 
-  #priceInputChangeHandler = (evt) => {
+  #priceInputHandler = (evt) => {
     this._setState({ basePrice: +evt.target.value });
   };
 
@@ -384,3 +389,4 @@ export default class PointEditView extends AbstractStatefulView {
     return point;
   }
 }
+

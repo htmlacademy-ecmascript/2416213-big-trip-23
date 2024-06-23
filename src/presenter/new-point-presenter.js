@@ -28,7 +28,7 @@ export default class NewPointPresenter {
       offers: this.#offersModel.offers,
       onFormSubmit: this.#handleFormSubmit,
       onCloseClick: this.#handleCancelClick,
-      modeType: Mode.ADDITING,
+      modeType: Mode.ADDING,
     });
 
     render(this.#pointEditComponent, this.#tripContainer, RenderPosition.AFTERBEGIN);

@@ -24,7 +24,7 @@ export default class TripListPresenter {
   #currentSortType = SortTypes.DAY;
   #pointsPresenter = new Map();
   #sortPresenter = null;
-  #isAdditingType = null;
+  #isAddingType = null;
   #loadingComponent = new LoadingView();
   #newPointPresenter = null;
   #newPointButtonPresenter = null;
@@ -131,7 +131,7 @@ export default class TripListPresenter {
   };
 
   createPoint = () => {
-    this.#isAdditingType = true;
+    this.#isAddingType = true;
     this.#currentSortType = SortTypes.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
     this.#newPointButtonPresenter.disableButton();
@@ -143,7 +143,7 @@ export default class TripListPresenter {
   };
 
   #handleNewPointDestroy = ({ isCanceled }) => {
-    this.#isAdditingType = false;
+    this.#isAddingType = false;
     this.#newPointButtonPresenter.enableButton();
 
     if (!this.eventPoints.length && isCanceled) {
